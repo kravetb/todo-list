@@ -3,7 +3,7 @@
 {% block content %}
   <h1>
     TODO list
-    <a href="#" class="btn btn-primary link-to-page">
+    <a href="{% url 'todo:task-create' %}" class="btn btn-primary link-to-page">
       Create
     </a>
   </h1>
@@ -11,31 +11,33 @@
   {% if task_list %}
     <ul>
       {% for task in task_list %}
-        <li>
           <div class="container">
             <p>
-                {{ task.name }}
-                {% if task.implementation %}
-                  <span class="text-success">Done</span>
-                {% else %}
-                  <span class="text-danger">Not done</span>
-                {% endif %}
+              {{ task.content }}
+              {% if task.implementation %}
+              <span class="text-success">Done</span>
+              <a href="{% url 'todo:undo_task' task.id %}" class="btn btn-warning btn-sm">Undo</a>
+              {% else %}
+              <span class="text-danger">Not done</span>
+              <a href="{% url 'todo:complete_task' task.id %}" class="btn btn-success btn-sm">Complete</a>
+              {% endif %}
             </p>
             <p>
               {{ task.created_date }} {{ task.dedline }}
             </p>
             <p>
-              {{ task.tags.all }}
-              <a href="#">
+              {% for tag in task.tags.all %}
+                {{ tag.name }}
+              {% endfor %}
+              <a href="{% url 'todo:task-update' pk=task.pk %}">
                 Update
               </a>
               <a style="color: red"
-                href="#">
+                href="{% url 'todo:task-delete' pk=task.id %}">
                 Delete
               </a>
             </p>
-          </div>>
-        </li>
+          </div>
       {% endfor %}
     </ul>
   {% else %}
