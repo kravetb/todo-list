@@ -1,9 +1,10 @@
 from django.views import generic
 
-from todo.models import Tag
+from todo.models import Tag, Task
 
 
-class HomePageView(generic.base.TemplateView):
+class HomePageView(generic.ListView):
+    model = Task
     template_name = "todo/index.html"
 
 
