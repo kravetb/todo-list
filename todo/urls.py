@@ -1,7 +1,9 @@
-from django.urls import path, include
+from django.urls import path
+
+from todo.views import HomePageView
 
 urlpatterns = [
-    path("", include("todo.urls", namespace="todo"))
+    path("", HomePageView.as_view(), name="index"),
 ]
 
 app_name = "todo"
